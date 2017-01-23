@@ -1,7 +1,15 @@
-input:valid {
-  background-color: #ddffdd;
+input[type="email"]:valid {
+  color: green;
 }
 
-input:invalid {
-  background-color: #ffdddd;
+input[type="email"]:invalid {
+  color: red;
+}
+
+input[type="url"]:valid {
+  color: green;
+}
+
+input[type="url"]:invalid {
+  color: red;
 }
