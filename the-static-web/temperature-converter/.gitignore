@@ -26,7 +26,7 @@
     
     <br>
     
-    <section id="regularButtons">
+    <section id="buttons">
       <button type="button" id="converter" name="convert">Convert</button>
       <button type="button" id="clear" name="clear">Clear</button>
     </section>

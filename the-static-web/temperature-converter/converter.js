@@ -1,78 +1,91 @@
-//setting base variables
-var tempFahrenheit;
-var tempCelcius;
-var x = document.getElementById("converted_temperature");
-var inputTemperature = document.getElementById("temperature"); //value from input box
-
-//convert temp to Fahrenheit
-//
-//
-function toFahrenheit () {	
-
-	tempFahrenheit = ((inputTemperature * 9) / 5) - 32; 
-	//convert equation
-	
-	tempFahrenheit = tempFahrenheit.toFixed(0); 
-	//equation converts to whole numbers
-	
-	function colorTemperature(){
-	x.innerhtml = "The temperature in Fahrenheit is " + tempFahrenheit;
-	}; //display temperature in fahrenheit
-
-};
-
-//convert temp to Celsius
-//
-//
-function toCelsius () {
-
-	tempCelcius = ((inputTemperature -32) * 5) / 9; //equation only converts to whole numbers
-	tempCelcius = tempCelcius.toFixed(0); // equation converts to whole number 
-
-	function colorTemperature(){
-	x.innerhtml = "The temperature in Celsius is " + tempCelcius;
-	}; //display temperature in Celcius
-};
-
-// Get a reference to the button element in the DOM
+//set base variables for temp types
+var celsiusTemp;
+var fahrenheitTemp;
+var result = document.getElementById("result");
+// set vars for buttons
 var button = document.getElementById("converter");
+var reload = document.getElementById("clear");
+
+// determines what conversion function to use
+// based on radio button selection
+function determineConverter (clickEvent) {
+  //debugger
+  // set vars for radio button
+  var fahrRadio = document.getElementById("fahrenheit");
+  var celsRadio = document.getElementById("celsius");
+  //converts to Celsius if selected
+  if (fahrRadio.checked === true) {
+    toFahrenheit();
+  }
+  //converts to Celsius if selected
+  else if (celsRadio.checked === true) {
+    toCelsius();
+  }
+  // produce dialog box if nothing is checked
+  else {
+    alert("Please choose a temperature!")
+  }
+}
+
+//converts from celsius to Farenheit
+function toFahrenheit () {
+  //debugger
+  var temperature = parseFloat(document.getElementById("temperature").value);
+  //console.log(temperature);
+  fahrenheitTemp = (temperature * 9 / 5) + 32;
+  //round temp to whole number
+  fahrenheitTemp = Math.round(fahrenheitTemp);
+  //console.log(fahrenheitTemp);
+  result.innerHTML += fahrenheitTemp + " degrees Fahrenheit!";
+  addColor();
+}
+
+//converts from Fahrenheit to celsius
+function toCelsius () {
+  //debugger
+  var temperature = parseFloat(document.getElementById("temperature").value);
+  //console.log(temperature);
+  celsiusTemp = (temperature - 32) * 5 / 9;
+  //round temp to whole number
+  celsiusTemp = Math.round(celsiusTemp);
+  //console.log(celsiusTemp);
+  result.innerHTML += celsiusTemp + " degrees Celsius!";
+  addColor();
+}
 
 
-// Assign a function to be executed when the button is clicked
-button.addEventListener("click", determineConverter());
-
-
-// This function should determine which conversion should
-//happen based on which radio button is selected.
-function determineConverter () {
-  if (document.getElementById("fahrenheit").checked === true) {
-  	toFahrenheit();
-  }else if (document.getElementById("celsius").checked === true) {  
-  	toCelsius();	
-  }else
-  	alert("Please Select \"Farenheit\" or \"Celcius\" to convert");
+//function that clears the page with clear button
+function clear () {
+  window.location.reload()
 };
 
-// temperature > 90F/32C make it red
-// temperature < 32F/0C make it blue
-// else it is green
-function colorTemperature() {
-	if (tempFahrenheit > 90 || tempCelcius > 32)
-		x.style.color = "red";
-	else if (tempFahrenheit < 32 || tempCelcius < 0)
-		x.style.color = "blue";
-	else
-		x.style.color = "green";
-};
 
-// Add an event handler to the input field that checks if the user pressed the enter key, 
-// and if that happens, perform the conversion.
-// var tempInput = document.getElementById("inputTemperature");
-// tempImput.addEventListener("keypressed", pressed);
-// function pressed(potato) {
-//		if (potato.keycode === 13) {
-//			document.getElementById("submit").click();
-//		}
-//
-//	}
-//
+// Assign a function to be executed when the convert button is clicked
+button.addEventListener("click", determineConverter);
+// Assign a function to be executed when the clear button is clicked
+reload.addEventListener("click", clear);
+
+//adds color based on converted value
+function addColor () {
+  //debugger
+  // If the temperature is greater than 90F/32C the color of the converted temperature should be red.  
+  if (celsiusTemp>32 || fahrenheitTemp>90) {
+    result.style.color = "red";
+  // If the temperature is greater than 90F/32C the color of the converted temperature should be red.
+  } else if (celsiusTemp<0 || fahrenheitTemp<32) {
+    result.style.color = "lightblue";
+  // All other temperatures will return green.
+  } else {
+    result.style.color = "green";
+  }
+
+}
+
+
+//Trigger event when 'enter' is pushed in text input
+document.getElementById("temperature").onkeypress=function(tomato){
+    if(tomato.keyCode === 13){
+        tomato.preventDefault();
+        var pressedEnter = document.getElementById("converter").click();
+    }
+}
